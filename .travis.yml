@@ -1,0 +1,21 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t Junaid388/Junaid388.github.io -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run Junaid388/Junaid388.github.io npm test -- --coverage
+
+after_success:
+    - docker build -t Junaid388/multi-client ./client
+    - docker build -t Junaid388/multi-nginx ./nginx
+    - docker build -t Junaid388/multi-server ./server
+    - docker build -t Junaid388/multi-worker ./worker
+    # Take those images and push them to docker hub
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push Junaid388/multi-client
+    - docker push Junaid388/multi-nginx
+    - docker push Junaid388/multi-server
+    - docker push Junaid388/multi-worker
