@@ -19,5 +19,11 @@ after_success:
     - docker push junaid388/multi-nginx
     - docker push junaid388/multi-server
     - docker push junaid388/multi-worker
-
-    #checking commmnets
+deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    keep_history: true
+    app: multi-docker
+    on:
+        branch: master

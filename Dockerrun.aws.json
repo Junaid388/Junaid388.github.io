@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefination": [
+        {
+            "name": "client",
+            "image": "junaid388/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "junaid388/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "junaid388/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "junaid388/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portmapping":[
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "links":["client","server"]
+        }
+    ]
+}
